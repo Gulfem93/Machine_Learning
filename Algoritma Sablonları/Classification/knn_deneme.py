@@ -9,7 +9,7 @@ Created on Mon Jul  6 18:50:13 2020
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
-
+from sklearn.preprocessing import LabelEncoder
 #2.veri onisleme
 #2.1.veri yukleme
 veriler = pd.read_csv('veriler.csv')
@@ -34,25 +34,26 @@ sc=StandardScaler()
 X_train = sc.fit_transform(x_train)
 X_test = sc.transform(x_test)
 
+#%% 
+##KNN
+from sklearn.neighbors import KNeighborsClassifier
 
-from sklearn.linear_model import LogisticRegression
-logr = LogisticRegression(random_state=0)
-logr.fit(X_train,y_train)
+knn = KNeighborsClassifier(n_neighbors=5, metric='euclidean')
+knn.fit(X_train, y_train)
 
-y_pred = logr.predict(X_test)
-print(y_pred)
-print(y_test)
+predict = knn.predict(X_test)
 
+from sklearn.metrics import confusion_matrix
 
+cm = confusion_matrix(y_test, predict)
+print(cm)
 
+#%%
+#Graph
+# Calculate min, max and limits
 
-
-
-
-
-
-
-
+import seaborn as sns
+sns.set()
 
 
 

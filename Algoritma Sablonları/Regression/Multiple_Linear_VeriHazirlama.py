@@ -24,7 +24,8 @@ veriler = pd.read_csv("eksikveriler.csv")
 
 ulkeler = veriler.iloc[:,0:1].values
 boy_kilo_yas = veriler.iloc[:,1:4].values
-cinsiyet = veriler[['Cinsiyet']]
+cinsiyet = veriler.iloc[:,4:]
+boy = veriler.iloc[:,1:2]
 
 #%%
 #Verilerin Ön İşlemesi
@@ -37,11 +38,11 @@ le = preprocessing.LabelEncoder()
 ohe = preprocessing.OneHotEncoder()
 
 ulkeler = ohe.fit_transform(ulkeler).toarray()
-cinsiyet = le.fit_transform(cinsiyet)
+cinsiyet = ohe.fit_transform(cinsiyet).toarray()
 
 ##Dataframe Dönüştürüldü
 ulkeler = pd.DataFrame(data = ulkeler, index = range(22), columns = ["fr", "tr", "us"])
-cinsiyet = pd.DataFrame(data = cinsiyet, index = range(22), columns = ["cinsiyet"])
+cinsiyet = pd.DataFrame(data = cinsiyet[:,0:1], index = range(22), columns = ["cinsiyet"])
 boy_kilo_yas = pd.DataFrame(data = boy_kilo_yas, index = range(22), columns = ["boy", "kilo", "yas"])
 
 ##DataFrameler birleştirildi
@@ -57,24 +58,4 @@ x_train, x_test, y_train, y_test = train_test_split(ulke_boy_kilo_yas, cinsiyet,
 sc = StandardScaler()
 X_train = sc.fit_transform(x_train)
 X_test =sc.fit_transform(x_test)
-'''
-##StandardScaler
-sc = StandardScaler()
-X_train = sc.fit_transform(x_train)
-X_test = sc.fit_transform(x_test)
-Y_train = sc.fit_transform(y_train)
-Y_test = sc.fit_transform(y_test)
-'''
-lr = LinearRegression()
-lr.fit(x_train, y_train)
 
-##tahmin
-tahmin = lr.predict(x_test)
-
-#%%
-#Görselleştirme
-x_train = x_train.sort_index()      #İndexleri random bir şekilde olan dataframe sıralı hhale dönüştürür
-y_train = y_train.sort_index()
-
-plt.plot(x_train, y_train)
-plt.plot(x_test, tahmin)

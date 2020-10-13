@@ -34,6 +34,8 @@ sc=StandardScaler()
 X_train = sc.fit_transform(x_train)
 X_test = sc.transform(x_test)
 
+#%% 
+##Logistic Regression
 
 from sklearn.linear_model import LogisticRegression
 logr = LogisticRegression(random_state=0)
@@ -42,6 +44,15 @@ logr.fit(X_train,y_train)
 y_pred = logr.predict(X_test)
 print(y_pred)
 print(y_test)
+
+#%%
+#Karmasıklık Matrixi
+
+from sklearn.metrics import confusion_matrix
+
+confusion_max = confusion_matrix(y_test, y_pred)
+
+print(confusion_max)
 
 
 

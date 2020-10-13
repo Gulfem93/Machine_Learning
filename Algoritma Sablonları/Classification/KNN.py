@@ -34,16 +34,22 @@ sc=StandardScaler()
 X_train = sc.fit_transform(x_train)
 X_test = sc.transform(x_test)
 
+#%% 
+#KNN
 
-from sklearn.linear_model import LogisticRegression
-logr = LogisticRegression(random_state=0)
-logr.fit(X_train,y_train)
+from sklearn.neighbors import KNeighborsClassifier
 
-y_pred = logr.predict(X_test)
-print(y_pred)
-print(y_test)
+knn = KNeighborsClassifier(n_neighbors=1, metric="minkowski")
+knn.fit(X_train, y_train)
 
+knn_predict = knn.predict(X_test)
 
+#Karmasık MatrixeE
+from sklearn.metrics import confusion_matrix
+
+cm = confusion_matrix(y_test, knn_predict)
+
+print(cm)
 
 
 
